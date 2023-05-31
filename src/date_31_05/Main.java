@@ -1,5 +1,6 @@
 package date_31_05;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class Main {
@@ -55,7 +56,84 @@ public class Main {
         IntStream.range(0, digits.length).filter(i -> digits[i] == '6').findFirst().ifPresent(i -> digits[i] = '9');
         return Integer.parseInt(new String(digits));
     }
+    public static int countEven(int num) {
+        int finalRes = 0;
+        for (int i = 1; i <= num; i++) {
+            int val = i;
+            int digitSum = 0;
+
+            while (val > 0) {
+                digitSum += val % 10;
+                val /= 10;
+            }
+
+            if (digitSum % 2 == 0) {
+                finalRes++;
+            }
+        }
+        return finalRes;
+    }
+    public static int countDigits(int num) {
+        int val, count = 0;
+        int num1 = num;
+        while (num > 0) {
+            val = num % 10;
+            num /= 10;
+            if (num1 % val == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+    public static int differenceOfSum(int[] nums) {
+        int sum = Arrays.stream(nums).sum();
+        int res = 0;
+        for (int num : nums) {
+            int val = num;
+            while (val > 0) {
+                res += val % 10;
+                val /= 10;
+            }
+        }
+        return sum - res;
+    }
+    public static int averageValue(int[] nums) {
+        int sum = 0;
+        int count = 0;
+        for (int num: nums) {
+            if (num % 3 == 0 && num % 2 == 0) {
+                sum += num;
+                count++;
+            }
+        }
+        if (sum == 0 && count == 0) {
+            return 0;
+        }
+        return sum / count;
+    }
+    public static double myPow(double x, int n) {
+        if (n == 0) {
+            return 1.0;
+        }
+        if (n == Integer.MIN_VALUE) {
+            x = x * x;
+            n = n / 2;
+        }
+        if (n < 0) {
+            x = 1 / x;
+            n = -n;
+        }
+        double res = 1.0;
+        while (n > 0) {
+            if (n % 2 == 1) {
+                res *= x;
+            }
+            x *= x;
+            n /= 2;
+        }
+        return res;
+    }
     public static void main(String[] args) {
-        System.out.println(maximum69Number(6699));
+        System.out.println(myPow(2, -2147483648));
     }
 }

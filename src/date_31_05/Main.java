@@ -1,6 +1,7 @@
 package date_31_05;
 
 import java.util.Arrays;
+import java.util.Stack;
 import java.util.stream.IntStream;
 
 public class Main {
@@ -133,7 +134,58 @@ public class Main {
         }
         return res;
     }
-    public static void main(String[] args) {
-        System.out.println(myPow(2, -2147483648));
+    public static String[] findWords(String[] words) {
+        String l1 = "qwertyuiop";
+        String l2 = "asdfghjkl";
+        String l3 = "zxcvbnm";
+
+        if (words.length == 0) return new String[] {};
+        String[] res = new String[words.length];
+        int index = 0;
+        boolean isCorrect = false;
+        for (String word : words) {
+            if (word.length() > 0) {
+                String  firstCharOfWord = String.valueOf(word.charAt(0)).toLowerCase();
+                if (l1.contains(firstCharOfWord)) {
+                    isCorrect = checkSymbols(word, l1);
+                } else if (l2.contains(firstCharOfWord)) {
+                    isCorrect = checkSymbols(word, l2);
+                } else if (l3.contains(firstCharOfWord)) {
+                    isCorrect = checkSymbols(word, l3);
+                }
+            }
+            if (isCorrect) {
+                res[index] = word;
+                index++;
+            }
+        }
+        return res;
     }
+    private static boolean checkSymbols(String word, String line) {
+        for (int i = 0; i < word.length(); i++) {
+            String ch = String.valueOf(word.charAt(i)).toLowerCase();
+            if (!line.contains(ch)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static String removeDuplicates(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (!stack.isEmpty() && stack.peek() == c) {
+                stack.pop();
+            } else {
+                stack.push(c);
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        while (!stack.isEmpty()) {
+            sb.append(stack.pop());
+        }
+        return sb.reverse().toString();
+    }
+    public static void main(String[] args) {
+
+     }
 }

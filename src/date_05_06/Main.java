@@ -1,7 +1,28 @@
 package date_05_06;
 
-import java.util.Arrays;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
+class Codec {
+    private final HashMap<String, String> pairOfURL = new HashMap<>();
+    public String encode(String longUrl) {
+        String postfix =  longUrl.substring(longUrl.lastIndexOf('/'));
+        String shortURL = String.format("http://%s/%s", postfix, generatePostfixForEncodeURL());
+        pairOfURL.put(shortURL, longUrl);
+        return shortURL;
+    }
+    public String decode(String shortUrl) {
+        if (pairOfURL.containsKey(shortUrl)) {
+            return pairOfURL.get(shortUrl);
+        }
+        return null;
+    }
+    public String generatePostfixForEncodeURL() {
+        byte[] array = new byte[7];
+        new Random().nextBytes(array);
+        return new String(array, StandardCharsets.UTF_8);
+    }
+}
 public class Main {
     public static int pivotInteger(int n) {
         int startValue = 1, finishValue = n;
@@ -55,10 +76,79 @@ public class Main {
         }
         return res;
     }
-
-    public static void main(String[] args) {
-        for (int count : sumZero(1)) {
-            System.out.println(count);
+    public static int[] buildArray(int[] nums) {
+        int[] res = new int[nums.length];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = nums[nums[i]];
         }
+        return res;
+    }
+    public static int maxDepth(String s) {
+        int maxDepth = 0;
+        int currentDepth = 0;
+        char[] charArray = s.toCharArray();
+        for (char c : charArray) {
+            if (c == '(') {
+                currentDepth++;
+                maxDepth = Math.max(maxDepth, currentDepth);
+            } else if (c == ')') {
+                currentDepth--;
+            }
+        }
+        return maxDepth;
+    }
+    public static int canBeTypedWords(String text, String brokenLetters) {
+        if (brokenLetters.equals("")) return Arrays.stream(text.split(" ")).toList().size();
+        List<String> brkLtr = Arrays.stream(brokenLetters.split("")).toList();
+        boolean isBrokenWord;
+        int count = 0;
+        for (String word: Arrays.stream(text.split(" ")).toList()) {
+            isBrokenWord = false;
+            for (String el: brkLtr) {
+                if (word.contains(el)) {
+                    isBrokenWord = true;
+                    break;
+                }
+            }
+            if (!isBrokenWord) {
+                count++;
+            }
+        }
+        return count;
+    }
+    public static int alternateDigitSum(int n) {
+        String strN = String.valueOf(n);
+        int res = 0;
+        for (int i = 0; i < strN.length(); i++) {
+            int val = Integer.parseInt(String.valueOf(strN.charAt(i)));
+            if (i % 2 == 0) {
+                res += val;
+            } else {
+                res -= val;
+            }
+        }
+        return res;
+    }
+    public int countBalls(int lowLimit, int highLimit) {
+        Map<Integer, Integer> boxCounts = new HashMap<>();
+        int maxCount = 0;
+        for (int i = lowLimit; i <= highLimit; i++) {
+            int sumDigits = calculateSumOfDigits(i);
+            boxCounts.put(sumDigits, boxCounts.getOrDefault(sumDigits, 0) + 1);
+            maxCount = Math.max(maxCount, boxCounts.get(sumDigits));
+        }
+        return maxCount;
+    }
+
+    private int calculateSumOfDigits(int num) {
+        int sum = 0;
+        while (num > 0) {
+            sum += num % 10;
+            num /= 10;
+        }
+        return sum;
+    }
+    public static void main(String[] args) {
+
     }
 }

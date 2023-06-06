@@ -112,6 +112,13 @@ public class Main {
         }
         return count;
     }
+    public static String removeTrailingZeros(String num) {
+        int endIndex = num.length() - 1;
+        while (endIndex >= 0 && num.charAt(endIndex) == '0') {
+            endIndex--;
+        }
+        return num.substring(0, endIndex + 1);
+    }
     public static void main(String[] args) {
 
     }

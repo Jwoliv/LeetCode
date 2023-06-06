@@ -1,7 +1,6 @@
 package date_06_06;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static int maximumWealth(int[][] accounts) {
@@ -14,7 +13,7 @@ public class Main {
         }
         return Arrays.stream(sumOfSubarrays).max().orElseThrow();
     }
-    public int countMatches(List<List<String>> items, String ruleKey, String ruleValue) {
+    public static int countMatches(List<List<String>> items, String ruleKey, String ruleValue) {
         int keyIndex = -1;
         int count = 0;
         switch (ruleKey) {
@@ -73,7 +72,7 @@ public class Main {
         }
         return count;
     }
-    public int maximumSumWithKElements(int[] nums, int k) {
+    public static int maximumSumWithKElements(int[] nums, int k) {
         int maxScore = 0;
         for (int i = 0; i < k; i++) {
             int maxElementIndex = findMaxElementIndex(nums);
@@ -87,7 +86,7 @@ public class Main {
         return maxScore;
     }
 
-    private int findMaxElementIndex(int[] nums) {
+    private static int findMaxElementIndex(int[] nums) {
         int maxIndex = -1;
         int maxElement = Integer.MIN_VALUE;
         for (int i = 0; i < nums.length; i++) {
@@ -98,7 +97,7 @@ public class Main {
         }
         return maxIndex;
     }
-    public int countGoodTriplets(int[] arr, int a, int b, int c) {
+    public static int countGoodTriplets(int[] arr, int a, int b, int c) {
         int count = 0;
         int n = arr.length;
         for (int i = 0; i < n - 2; i++) {
@@ -118,6 +117,36 @@ public class Main {
             endIndex--;
         }
         return num.substring(0, endIndex + 1);
+    }
+    public static List<String> cellsInRange(String s) {
+        String[] parts = s.split(":");
+        String startCell = parts[0];
+        String endCell = parts[1];
+        int startRow = Integer.parseInt(startCell.substring(1));
+        int endRow = Integer.parseInt(endCell.substring(1));
+        char startCol = startCell.charAt(0);
+        char endCol = endCell.charAt(0);
+        List<String> result = new ArrayList<>();
+        for (char col = startCol; col <= endCol; col++) {
+            for (int row = startRow; row <= endRow; row++) {
+                result.add(col + String.valueOf(row));
+            }
+        }
+        Collections.sort(result);
+        return result;
+    }
+    public static int arithmeticTriplets(int[] nums, int diff) {
+        int res = 0;
+        Map<Integer, Integer> numCounts = new HashMap<>();
+        Map<Integer, Integer> tripletCounts = new HashMap<>();
+        for (int num : nums) {
+            int prevCount = numCounts.getOrDefault(num - diff, 0);
+            int prevTriplets = tripletCounts.getOrDefault(num - diff, 0);
+            res += prevTriplets;
+            tripletCounts.put(num, tripletCounts.getOrDefault(num, 0) + prevCount);
+            numCounts.put(num, numCounts.getOrDefault(num, 0) + 1);
+        }
+        return res;
     }
     public static void main(String[] args) {
 
